@@ -1,0 +1,9 @@
+{
+  "maxLength": 10,
+  "forbiddenLastNumbers": ["00", "66", "04", "45", "85", "27", "67", "17", "57", "97", "98", "58", "42", "82", "69"],
+  "minSumFirst5Numbers": 24,
+  "maxSumFirst5Numbers": 29,
+  "minSumLast5Numbers": 24,
+  "maxSumLast5Numbers": 28,
+  "validLastNumbers": ["19", "24", "26", "37", "34"]
+}

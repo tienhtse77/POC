@@ -13,6 +13,8 @@ namespace FengshuiChecker.Models
             this.Name = name;
         }
 
+        public bool IsFengshuiType { get; set; }
+
         public string Name { get; set; }
 
         public virtual ICollection<PhoneNumberPrefix>? PhoneNumberPrefixes { get; set; }
