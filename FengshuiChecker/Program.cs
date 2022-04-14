@@ -2,6 +2,7 @@
 using FengshuiChecker.Repositories;
 using FengshuiChecker.Repositories.PhoneNumberRepository;
 using FengshuiChecker.Services.PhoneNumberService;
+using FengshuiChecker.Services.RuleValidationService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,23 +18,21 @@ try
         .ConfigureServices((_, services) =>
             services
                 .AddDbContext<FengshuiCheckerDbContext>(options =>
-                    options.UseSqlServer("Data Source=HTTIEN;Initial Catalog=FengshuiChecker;Trusted_Connection=True;MultipleActiveResultSets=true;", sqlOptions =>
+                    options.UseSqlServer(connectionString, sqlOptions =>
                     {
                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 5,
                         maxRetryDelay: TimeSpan.FromSeconds(3),
                         errorNumbersToAdd: null);
-                    }
-                    ))
+                    }))
                 .AddScoped<IPhoneNumberService, PhoneNumberService>()
+                .AddScoped<IFengshuiPhoneNumberValidator, FengshuiPhoneNumberValidator>()
                 .AddScoped<IUnitOfWork, UnitOfWork>()
-
-                .AddTransient<MainClass>()
-                )
+                .AddTransient<MainClass>())
         .Build();
 
     Console.WriteLine("Hello, World!");
     var entryPoint = host.Services.GetRequiredService<MainClass>();
-    entryPoint.Run();
+    await entryPoint.Run();
 
 } catch (Exception ex)
 {
@@ -50,7 +49,7 @@ public class MainClass
         this.service = service;
     }
 
-    public async void Run(CancellationToken stoppingToken = default)
+    public async Task Run(CancellationToken stoppingToken = default)
     {
         (await service.GetShengfuiPhoneNumbers()).ToList().ForEach(phoneNumber => Console.WriteLine(phoneNumber));
     }

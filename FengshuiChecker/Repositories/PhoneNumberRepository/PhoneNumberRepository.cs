@@ -9,7 +9,7 @@ namespace FengshuiChecker.Repositories.PhoneNumberRepository
 
         public async Task<PhoneNumber[]> GetAllPhoneNumbers()
         {
-            return await _context.PhoneNumbers.Where(pn => pn.IsDeleted == true).ToArrayAsync();
+            return await _context.PhoneNumbers.Where(pn => pn.IsDeleted == false).ToArrayAsync();
         }
     }
 }

@@ -7,10 +7,6 @@ namespace FengshuiChecker.Models
     {
         public FengshuiCheckerDbContext(DbContextOptions<FengshuiCheckerDbContext> options) : base(options) { }
 
-        public FengshuiCheckerDbContext()
-        {
-        }
-
         public DbSet<PhoneNetworkProvider> PhoneNetworkProviders { get; set; }
 
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
