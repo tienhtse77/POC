@@ -1,4 +1,4 @@
-﻿namespace FengshuiChecker.Console.Services.PhoneNumberService;
+﻿namespace FengshuiChecker.Console.Interfaces;
 
 public interface IPhoneNumberService
 {

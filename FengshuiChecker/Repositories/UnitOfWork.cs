@@ -1,5 +1,5 @@
-﻿using FengshuiChecker.Console.Models;
-using FengshuiChecker.Console.Repositories.PhoneNumberRepository;
+﻿using FengshuiChecker.Console.Interfaces;
+using FengshuiChecker.Console.Models;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace FengshuiChecker.Console.Repositories;

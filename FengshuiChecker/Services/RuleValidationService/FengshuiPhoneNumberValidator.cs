@@ -1,5 +1,5 @@
-﻿using FengshuiChecker.Console.Models;
-using FengshuiChecker.Console.Services.ValidationRuleService;
+﻿using FengshuiChecker.Console.Interfaces;
+using FengshuiChecker.Console.Models;
 
 namespace FengshuiChecker.Console.Services.RuleValidationService;
 

@@ -1,65 +1,94 @@
 ﻿using Moq;
 using Xunit;
-using FengshuiChecker.Console.Repositories;
 using FengshuiChecker.UnitTest.Helpers;
 using FengshuiChecker.UnitTest.TestFixture;
+using Autofac;
+using FengshuiChecker.Console.Interfaces;
+using System;
 
-namespace FengshuiChecker.UnitTest.ServiceTests.PhoneNumber
+namespace FengshuiChecker.UnitTest.ServiceTests.PhoneNumber;
+
+[Collection(TestConstantsCollection.PhoneNumberServiceTestCollectionName)]
+public partial class GetFengshuiPhoneNumbers
 {
-    public class GetFengshuiPhoneNumbers : IClassFixture<PhoneNumberServiceTestFixture>
+    private IPhoneNumberService _phoneNumberService;
+    private Mock<IUnitOfWork> _mockUnitOfWork;
+    private Mock<IFengshuiPhoneNumberValidator> _mockFengshuiValidator;
+
+    public GetFengshuiPhoneNumbers(PhoneNumberServiceTestCollectionFixture collectionFixture)
     {
-        private IUnitOfWork _uow;
-        PhoneNumberServiceTestFixture fixture;
-
-        public GetFengshuiPhoneNumbers(PhoneNumberServiceTestFixture fixture, IUnitOfWork uow)
+        using (var scope = collectionFixture.Container.BeginLifetimeScope())
         {
-            this.fixture = fixture;
-            this._uow = uow;
+            _phoneNumberService = scope.Resolve<IPhoneNumberService>();
         }
 
-        [Fact]
-        public async void GetFengshuiPhoneNumbers_Success_HasValue()
+        _mockUnitOfWork = collectionFixture.MockUnitOfWork;
+        _mockFengshuiValidator = collectionFixture.MockFengshuiPhoneNumberValidator;
+    }
+
+    [Fact]
+    public async void GetFengshuiPhoneNumbers_Success_HasValue()
+    {
+        // Arrange
+        var fengshuiPhoneNumber = FakeData.GenerateFengshuiPhoneNumber();
+        var mockResult = new Console.Models.PhoneNumber[]
         {
-            // Arrange
-            Mock<IUnitOfWork> mock = new Mock<IUnitOfWork>();
-            var fengshuiPhoneNumber = FakeData.GenerateFengshuiPhoneNumber();
-            var mockResult = new Console.Models.PhoneNumber[]
-            {
-                fengshuiPhoneNumber,
-                fengshuiPhoneNumber
-            };
-            mock.Setup(p => p.PhoneNumberRepository.GetAllPhoneNumbers())
-                .ReturnsAsync(new Console.Models.PhoneNumber[] { fengshuiPhoneNumber });
+            fengshuiPhoneNumber,
+            fengshuiPhoneNumber
+        };
+        _mockUnitOfWork
+            .Setup(p => p.PhoneNumberRepository.GetAllPhoneNumbers())
+            .ReturnsAsync(mockResult);
+        _mockFengshuiValidator
+            .Setup(p => p.Validate(It.IsAny<Console.Models.PhoneNumber>()))
+            .Returns(true);
 
-            // Act
-            var result = await this._uow.PhoneNumberRepository.GetAllPhoneNumbers();
+        // Act
+        var result = await _phoneNumberService.GetShengfuiPhoneNumbers();
 
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(mockResult.Length, result.Length);
-        }
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(mockResult.Length, result.Length);
+    }
 
-        [Fact]
-        public async void GetFengshuiPhoneNumbers_Success_NoValue()
+    [Fact]
+    public async void GetFengshuiPhoneNumbers_Success_NoValue()
+    {
+        // Arrange
+        var fengshuiPhoneNumber = FakeData.GenerateNonFengshuiPhoneNumber();
+        var mockResult = new Console.Models.PhoneNumber[]
         {
-            // Arrange
-            var fengshuiPhoneNumber = FakeData.GenerateNonFengshuiPhoneNumber();
-            var mockResult = new Console.Models.PhoneNumber[]
-            {
-                fengshuiPhoneNumber,
-                fengshuiPhoneNumber
-            };
-            fixture.MockUnitOfWork
-                .Setup(p => p.PhoneNumberRepository.GetAllPhoneNumbers())
-                .ReturnsAsync(mockResult);
+            fengshuiPhoneNumber,
+            fengshuiPhoneNumber
+        };
+        _mockUnitOfWork
+            .Setup(p => p.PhoneNumberRepository.GetAllPhoneNumbers())
+            .ReturnsAsync(mockResult);
+        _mockFengshuiValidator
+            .Setup(p => p.Validate(It.IsAny<Console.Models.PhoneNumber>()))
+            .Returns(false);
 
-            // Act
-            var result = await this._uow.PhoneNumberRepository.GetAllPhoneNumbers();
+        // Act
+        var result = await _phoneNumberService.GetShengfuiPhoneNumbers();
 
-            // Assert
-            Assert.NotNull(result);
-            Assert.Empty(result);
-        }
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    public async void GetFengshuiPhoneNumbers_Fail_QueryThrowException()
+    {
+        // Arrange
+        _mockUnitOfWork
+            .Setup(p => p.PhoneNumberRepository.GetAllPhoneNumbers())
+            .ThrowsAsync(new Exception());
+
+        // Act
+        var exception = await Record.ExceptionAsync(async () =>
+            await _phoneNumberService.GetShengfuiPhoneNumbers());
+
+        // Assert
+        Assert.NotNull(exception);
     }
 }
-

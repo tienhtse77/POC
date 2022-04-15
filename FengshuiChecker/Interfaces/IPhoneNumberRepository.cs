@@ -1,6 +1,6 @@
 ﻿using FengshuiChecker.Console.Models;
 
-namespace FengshuiChecker.Console.Repositories.PhoneNumberRepository;
+namespace FengshuiChecker.Console.Interfaces;
 
 public interface IPhoneNumberRepository : IGenericRepository<PhoneNumber>
 {

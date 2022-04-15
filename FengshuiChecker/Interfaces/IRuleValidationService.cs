@@ -1,6 +1,6 @@
 ﻿using FengshuiChecker.Console.Models;
 
-namespace FengshuiChecker.Console.Services.ValidationRuleService;
+namespace FengshuiChecker.Console.Interfaces;
 
 public interface IRuleValidationService
 {

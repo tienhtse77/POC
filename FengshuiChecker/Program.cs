@@ -1,4 +1,5 @@
-﻿using FengshuiChecker.Console.Models;
+﻿using FengshuiChecker.Console.Interfaces;
+using FengshuiChecker.Console.Models;
 using FengshuiChecker.Console.Repositories;
 using FengshuiChecker.Console.Services.PhoneNumberService;
 using FengshuiChecker.Console.Services.RuleValidationService;

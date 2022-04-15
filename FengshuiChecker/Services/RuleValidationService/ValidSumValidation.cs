@@ -1,4 +1,5 @@
-﻿using FengshuiChecker.Console.Models;
+﻿using FengshuiChecker.Console.Interfaces;
+using FengshuiChecker.Console.Models;
 using FengshuiChecker.Console.ViewModels.Configuration;
 using Newtonsoft.Json;
 using System.Reflection;

@@ -1,7 +1,6 @@
-﻿using FengshuiChecker.Console.Repositories.PhoneNumberRepository;
-using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.EntityFrameworkCore.Storage;
 
-namespace FengshuiChecker.Console.Repositories;
+namespace FengshuiChecker.Console.Interfaces;
 
 public interface IUnitOfWork
 {

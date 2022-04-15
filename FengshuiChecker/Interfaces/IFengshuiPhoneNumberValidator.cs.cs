@@ -1,7 +1,6 @@
 ﻿using FengshuiChecker.Console.Models;
-using FengshuiChecker.Console.Services.ValidationRuleService;
 
-namespace FengshuiChecker.Console.Services.RuleValidationService;
+namespace FengshuiChecker.Console.Interfaces;
 
 public interface IFengshuiPhoneNumberValidator
 {
