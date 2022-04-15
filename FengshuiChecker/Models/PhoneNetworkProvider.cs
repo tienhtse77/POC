@@ -2,12 +2,12 @@
 
 public class PhoneNetworkProvider : BaseEntity
 {
+    public PhoneNetworkProvider() { }
+
     public PhoneNetworkProvider(string name)
     {
         this.Name = name;
     }
-
-    public bool IsFengshuiType { get; set; }
 
     public string Name { get; set; }
 

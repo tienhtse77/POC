@@ -23,7 +23,7 @@ public class ValidNetworkProviderValidation : IRuleValidationService
             return false;
         }
 
-        if (phoneNumber.PhoneNumberPrefix?.IsFengshuiType == false)
+        if (phoneNumber.PhoneNumberPrefix?.IsFengshuiPrefix == false)
         {
             return false;
         }

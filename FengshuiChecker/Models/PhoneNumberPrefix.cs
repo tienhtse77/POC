@@ -2,15 +2,17 @@
 
 public class PhoneNumberPrefix : BaseEntity
 {
-    public PhoneNumberPrefix(string value, bool isFengshuiType)
+    public PhoneNumberPrefix() { }
+
+    public PhoneNumberPrefix(string value, bool isFengshuiPrefix)
     {
         this.Value = value;
-        this.IsFengshuiType = isFengshuiType;
+        this.IsFengshuiPrefix = isFengshuiPrefix;
     }
 
     public string Value { get; set; }
 
-    public bool IsFengshuiType { get; set; }
+    public bool IsFengshuiPrefix { get; set; }
 
     public virtual ICollection<PhoneNumber>? PhoneNumbers { get; set; }
 }

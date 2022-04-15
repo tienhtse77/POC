@@ -2,6 +2,8 @@
 
 public class PhoneNumber : BaseEntity
 {
+    public PhoneNumber() { }
+
     public PhoneNumber(string value)
     {
         this.Value = value;
