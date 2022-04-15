@@ -1,22 +1,16 @@
-﻿using FengshuiChecker.Models;
+﻿using FengshuiChecker.Console.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FengshuiChecker.Repositories
+namespace FengshuiChecker.Console.Repositories;
+
+public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
-    {
-        internal readonly FengshuiCheckerDbContext _context;
-        internal DbSet<T> dbSet;
+    internal readonly FengshuiCheckerDbContext _context;
+    internal DbSet<T> dbSet;
 
-        public GenericRepository(FengshuiCheckerDbContext context)
-        {
-            _context = context;
-            dbSet = _context.Set<T>();
-        }
+    public GenericRepository(FengshuiCheckerDbContext context)
+    {
+        _context = context;
+        dbSet = _context.Set<T>();
     }
 }

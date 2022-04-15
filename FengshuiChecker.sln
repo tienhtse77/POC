@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32317.152
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FengshuiChecker", "FengshuiChecker\FengshuiChecker.csproj", "{76DD5700-D06B-4E1B-B7C9-57D695CF2C22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FengshuiChecker.Console", "FengshuiChecker\FengshuiChecker.Console.csproj", "{76DD5700-D06B-4E1B-B7C9-57D695CF2C22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FengshuiChecker.UnitTest", "FengshuiChecker.UnitTest\FengshuiChecker.UnitTest.csproj", "{2E7CB453-F5D3-4F90-BA7E-7DCE403F2F7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FengshuiChecker.UnitTest", "FengshuiChecker.UnitTest\FengshuiChecker.UnitTest.csproj", "{2E7CB453-F5D3-4F90-BA7E-7DCE403F2F7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

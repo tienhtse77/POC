@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace FengshuiChecker.Models
+namespace FengshuiChecker.Console.Models;
+
+public class BaseEntity
 {
-    public class BaseEntity
-    {
-        [Key]
-        public Guid Id { get; set; }
+    [Key]
+    public Guid Id { get; set; }
 
-        public bool IsDeleted { get; set; }
-    }
+    public bool IsDeleted { get; set; }
 }

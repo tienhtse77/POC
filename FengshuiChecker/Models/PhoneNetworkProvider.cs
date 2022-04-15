@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace FengshuiChecker.Console.Models;
 
-namespace FengshuiChecker.Models
+public class PhoneNetworkProvider : BaseEntity
 {
-    public class PhoneNetworkProvider : BaseEntity
+    public PhoneNetworkProvider(string name)
     {
-        public PhoneNetworkProvider(string name)
-        {
-            this.Name = name;
-        }
-
-        public bool IsFengshuiType { get; set; }
-
-        public string Name { get; set; }
-
-        public virtual ICollection<PhoneNumberPrefix>? PhoneNumberPrefixes { get; set; }
+        this.Name = name;
     }
+
+    public bool IsFengshuiType { get; set; }
+
+    public string Name { get; set; }
+
+    public virtual ICollection<PhoneNumberPrefix>? PhoneNumberPrefixes { get; set; }
 }

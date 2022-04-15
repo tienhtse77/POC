@@ -1,19 +1,13 @@
-﻿using FengshuiChecker.Repositories.PhoneNumberRepository;
+﻿using FengshuiChecker.Console.Repositories.PhoneNumberRepository;
 using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FengshuiChecker.Repositories
+namespace FengshuiChecker.Console.Repositories;
+
+public interface IUnitOfWork
 {
-    public interface IUnitOfWork
-    {
-        IPhoneNumberRepository PhoneNumberRepository { get; }
+    IPhoneNumberRepository PhoneNumberRepository { get; }
 
-        IDbContextTransaction GetTransaction();
+    IDbContextTransaction GetTransaction();
 
-        Task<int> CommitAsync();
-    }
+    Task<int> CommitAsync();
 }

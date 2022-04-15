@@ -1,66 +1,61 @@
-﻿using FengshuiChecker.Models;
-using FengshuiChecker.Repositories;
-using FengshuiChecker.Services.RuleValidationService;
-using FengshuiChecker.Services.ValidationRuleService;
-using FengshuiChecker.ViewModels.Configuration;
-using Newtonsoft.Json;
-using System.Reflection;
+﻿using FengshuiChecker.Console.Repositories;
+using FengshuiChecker.Console.Services.RuleValidationService;
+using FengshuiChecker.Console.Services.ValidationRuleService;
 
-namespace FengshuiChecker.Services.PhoneNumberService
+namespace FengshuiChecker.Console.Services.PhoneNumberService;
+
+public class PhoneNumberService : IPhoneNumberService
 {
-    public class PhoneNumberService : IPhoneNumberService
+    private readonly IUnitOfWork _uow;
+    private readonly IFengshuiPhoneNumberValidator _validator;
+
+    public PhoneNumberService(IUnitOfWork uow, IFengshuiPhoneNumberValidator validator)
     {
-        private readonly IUnitOfWork _uow;
-        private readonly IFengshuiPhoneNumberValidator _validator;
+        this._uow = uow;
+        this._validator = validator;
+    }
 
-        public PhoneNumberService(IUnitOfWork uow, IFengshuiPhoneNumberValidator validator)
+    public async Task<string[]> GetShengfuiPhoneNumbers()
+    {
+        try
         {
-            this._uow = uow;
-            this._validator = validator;
-        }
+            SetUpFengshuiValidator(this._validator);
+            var phoneNumbers = await _uow.PhoneNumberRepository.GetAllPhoneNumbers();
 
-        public async Task<string[]> GetShengfuiPhoneNumbers()
-        {
-            try
+            if (phoneNumbers.Length == 0)
             {
-                SetUpFengshuiValidator(this._validator);
-                var phoneNumbers = await _uow.PhoneNumberRepository.GetAllPhoneNumbers();
-
-                if (phoneNumbers.Length == 0)
-                {
-                    return new string[0];
-                }
+                return new string[0];
+            }
                 
-                var result = new List<string>();
+            var result = new List<string>();
 
-                foreach (var phoneNumber in phoneNumbers)
+            foreach (var phoneNumber in phoneNumbers)
+            {
+                if (this._validator.Validate(phoneNumber))
                 {
-                    if (this._validator.Validate(phoneNumber))
-                    {
-                        result.Add(phoneNumber.Value);
-                    }
+                    result.Add(phoneNumber.Value);
                 }
+            }
 
-                return result.ToArray();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
+            return result.ToArray();
         }
-
-        private void SetUpFengshuiValidator(IFengshuiPhoneNumberValidator validator)
+        catch (Exception ex)
         {
-            if (validator == null)
-            {
-                return;
-            }
-
-            validator.AddRuleValidation(new MaxLengthValidation());
-            validator.AddRuleValidation(new LastTwoNumberValidation());
-            validator.AddRuleValidation(new ValidNetworkProviderValidation());
-            validator.AddRuleValidation(new ValidSumValidation());
+            System.Console.WriteLine(ex.Message);
+            throw;
         }
+    }
+
+    private void SetUpFengshuiValidator(IFengshuiPhoneNumberValidator validator)
+    {
+        if (validator == null)
+        {
+            return;
+        }
+
+        validator.AddRuleValidation(new MaxLengthValidation());
+        validator.AddRuleValidation(new LastTwoNumberValidation());
+        validator.AddRuleValidation(new ValidNetworkProviderValidation());
+        validator.AddRuleValidation(new ValidSumValidation());
     }
 }

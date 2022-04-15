@@ -1,15 +1,14 @@
-﻿using FengshuiChecker.Models;
+﻿using FengshuiChecker.Console.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FengshuiChecker.Repositories.PhoneNumberRepository
-{
-    public class PhoneNumberRepository : GenericRepository<PhoneNumber>, IPhoneNumberRepository
-    {
-        public PhoneNumberRepository(FengshuiCheckerDbContext context) : base(context) { }
+namespace FengshuiChecker.Console.Repositories.PhoneNumberRepository;
 
-        public async Task<PhoneNumber[]> GetAllPhoneNumbers()
-        {
-            return await _context.PhoneNumbers.Where(pn => pn.IsDeleted == false).ToArrayAsync();
-        }
+public class PhoneNumberRepository : GenericRepository<PhoneNumber>, IPhoneNumberRepository
+{
+    public PhoneNumberRepository(FengshuiCheckerDbContext context) : base(context) { }
+
+    public async Task<PhoneNumber[]> GetAllPhoneNumbers()
+    {
+        return await _context.PhoneNumbers.Where(pn => pn.IsDeleted == false).ToArrayAsync();
     }
 }

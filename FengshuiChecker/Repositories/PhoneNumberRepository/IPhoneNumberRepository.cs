@@ -1,18 +1,12 @@
-﻿using FengshuiChecker.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FengshuiChecker.Console.Models;
 
-namespace FengshuiChecker.Repositories.PhoneNumberRepository
+namespace FengshuiChecker.Console.Repositories.PhoneNumberRepository;
+
+public interface IPhoneNumberRepository : IGenericRepository<PhoneNumber>
 {
-    public interface IPhoneNumberRepository : IGenericRepository<PhoneNumber>
-    {
-        /// <summary>
-        /// Get all active phone numbers
-        /// </summary>
-        /// <returns>An array of phone numbers</returns>
-        Task<PhoneNumber[]> GetAllPhoneNumbers();
-    }
+    /// <summary>
+    /// Get all active phone numbers
+    /// </summary>
+    /// <returns>An array of phone numbers</returns>
+    Task<PhoneNumber[]> GetAllPhoneNumbers();
 }

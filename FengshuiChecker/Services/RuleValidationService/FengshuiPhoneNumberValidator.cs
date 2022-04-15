@@ -1,45 +1,39 @@
-﻿using FengshuiChecker.Models;
-using FengshuiChecker.Services.ValidationRuleService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FengshuiChecker.Console.Models;
+using FengshuiChecker.Console.Services.ValidationRuleService;
 
-namespace FengshuiChecker.Services.RuleValidationService
+namespace FengshuiChecker.Console.Services.RuleValidationService;
+
+public class FengshuiPhoneNumberValidator : IFengshuiPhoneNumberValidator
 {
-    public class FengshuiPhoneNumberValidator : IFengshuiPhoneNumberValidator
+    private IList<IRuleValidationService> ruleValidations;
+
+    public void AddRuleValidation(IRuleValidationService ruleValidation)
     {
-        private IList<IRuleValidationService> ruleValidations;
-
-        public void AddRuleValidation(IRuleValidationService ruleValidation)
+        if (this.ruleValidations == null)
         {
-            if (this.ruleValidations == null)
-            {
-                this.ruleValidations = new List<IRuleValidationService>(); 
-            }
-
-            this.ruleValidations.Add(ruleValidation);
+            this.ruleValidations = new List<IRuleValidationService>(); 
         }
 
-        public bool Validate(PhoneNumber phoneNumber)
+        this.ruleValidations.Add(ruleValidation);
+    }
+
+    public bool Validate(PhoneNumber phoneNumber)
+    {
+        if (this.ruleValidations == null || this.ruleValidations.Count == 0)
         {
-            if (this.ruleValidations == null || this.ruleValidations.Count == 0)
-            {
-                return true;
-            }
-
-            foreach (var validator in this.ruleValidations)
-            {
-                var isValid = validator.Validate(phoneNumber);
-
-                if (isValid == false)
-                {
-                    return false;
-                }
-            }
-
             return true;
         }
+
+        foreach (var validator in this.ruleValidations)
+        {
+            var isValid = validator.Validate(phoneNumber);
+
+            if (isValid == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

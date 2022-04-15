@@ -1,34 +1,32 @@
-﻿using FengshuiChecker.Models;
-using FengshuiChecker.Repositories.PhoneNumberRepository;
+﻿using FengshuiChecker.Console.Models;
+using FengshuiChecker.Console.Repositories.PhoneNumberRepository;
 using Microsoft.EntityFrameworkCore.Storage;
-using System.Threading.Tasks;
 
-namespace FengshuiChecker.Repositories
+namespace FengshuiChecker.Console.Repositories;
+
+public class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    private readonly FengshuiCheckerDbContext _context;
+
+    private IPhoneNumberRepository _phoneNumberRepository;
+
+    public IPhoneNumberRepository PhoneNumberRepository
     {
-        private readonly FengshuiCheckerDbContext _context;
+        get { return _phoneNumberRepository ??= new PhoneNumberRepository.PhoneNumberRepository(_context); }
+    }
 
-        private IPhoneNumberRepository _phoneNumberRepository;
+    public UnitOfWork(FengshuiCheckerDbContext context)
+    {
+        _context = context;
+    }
 
-        public IPhoneNumberRepository PhoneNumberRepository
-        {
-            get { return _phoneNumberRepository ??= new PhoneNumberRepository.PhoneNumberRepository(_context); }
-        }
+    public async Task<int> CommitAsync()
+    {
+        return await _context.SaveChangesAsync();
+    }
 
-        public UnitOfWork(FengshuiCheckerDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<int> CommitAsync()
-        {
-            return await _context.SaveChangesAsync();
-        }
-
-        public IDbContextTransaction GetTransaction()
-        {
-            return _context.Database.BeginTransaction();
-        }
+    public IDbContextTransaction GetTransaction()
+    {
+        return _context.Database.BeginTransaction();
     }
 }

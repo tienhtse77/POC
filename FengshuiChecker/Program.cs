@@ -1,8 +1,7 @@
-﻿using FengshuiChecker.Models;
-using FengshuiChecker.Repositories;
-using FengshuiChecker.Repositories.PhoneNumberRepository;
-using FengshuiChecker.Services.PhoneNumberService;
-using FengshuiChecker.Services.RuleValidationService;
+﻿using FengshuiChecker.Console.Models;
+using FengshuiChecker.Console.Repositories;
+using FengshuiChecker.Console.Services.PhoneNumberService;
+using FengshuiChecker.Console.Services.RuleValidationService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,14 +29,12 @@ try
                 .AddTransient<MainClass>())
         .Build();
 
-    Console.WriteLine("Hello, World!");
     var entryPoint = host.Services.GetRequiredService<MainClass>();
     await entryPoint.Run();
 
 } catch (Exception ex)
 {
-    Console.WriteLine("Application failed to start", ex);
-    throw;
+    Console.WriteLine("Application failed to start: ", ex);
 }
 
 public class MainClass
@@ -49,8 +46,18 @@ public class MainClass
         this.service = service;
     }
 
-    public async Task Run(CancellationToken stoppingToken = default)
+    public async Task Run()
     {
-        (await service.GetShengfuiPhoneNumbers()).ToList().ForEach(phoneNumber => Console.WriteLine(phoneNumber));
+        
+        var result =  await service.GetShengfuiPhoneNumbers();
+
+        if (result != null && result.Length == 0)
+        {
+            Console.WriteLine("There are NO Fengshui phone numbers in the system!");
+            return;
+        }
+
+        Console.WriteLine("List of Fengshui phone numbers in the system: ");
+        result.ToList().ForEach(phoneNumber => Console.WriteLine(phoneNumber));
     }
 }
