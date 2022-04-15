@@ -5,13 +5,13 @@ namespace FengshuiChecker.Console.Services.PhoneNumberService;
 
 public class PhoneNumberService : IPhoneNumberService
 {
-    private readonly IUnitOfWork _uow;
     private readonly IFengshuiPhoneNumberValidator _validator;
+    private readonly IPhoneNumberRepository _phoneNumberRepository;
 
-    public PhoneNumberService(IUnitOfWork uow, IFengshuiPhoneNumberValidator validator)
+    public PhoneNumberService(IFengshuiPhoneNumberValidator validator, IPhoneNumberRepository phoneNumberRepository)
     {
-        this._uow = uow;
         this._validator = validator;
+        this._phoneNumberRepository = phoneNumberRepository;
     }
 
     public async Task<string[]> GetShengfuiPhoneNumbers()
@@ -19,7 +19,7 @@ public class PhoneNumberService : IPhoneNumberService
         try
         {
             SetUpFengshuiValidator(this._validator);
-            var phoneNumbers = await _uow.PhoneNumberRepository.GetAllPhoneNumbers();
+            var phoneNumbers = await _phoneNumberRepository.GetAllPhoneNumbers();
 
             if (phoneNumbers.Length == 0)
             {

@@ -12,8 +12,8 @@ namespace FengshuiChecker.UnitTest.ServiceTests.PhoneNumber;
 public partial class GetFengshuiPhoneNumbers
 {
     private IPhoneNumberService _phoneNumberService;
-    private Mock<IUnitOfWork> _mockUnitOfWork;
     private Mock<IFengshuiPhoneNumberValidator> _mockFengshuiValidator;
+    private Mock<IPhoneNumberRepository> _mockPhoneNumberRepository;
 
     public GetFengshuiPhoneNumbers(PhoneNumberServiceTestCollectionFixture collectionFixture)
     {
@@ -22,7 +22,7 @@ public partial class GetFengshuiPhoneNumbers
             _phoneNumberService = scope.Resolve<IPhoneNumberService>();
         }
 
-        _mockUnitOfWork = collectionFixture.MockUnitOfWork;
+        _mockPhoneNumberRepository = collectionFixture.MockPhoneNumberRepository;
         _mockFengshuiValidator = collectionFixture.MockFengshuiPhoneNumberValidator;
     }
 
@@ -36,8 +36,8 @@ public partial class GetFengshuiPhoneNumbers
             fengshuiPhoneNumber,
             fengshuiPhoneNumber
         };
-        _mockUnitOfWork
-            .Setup(p => p.PhoneNumberRepository.GetAllPhoneNumbers())
+        _mockPhoneNumberRepository
+            .Setup(p => p.GetAllPhoneNumbers())
             .ReturnsAsync(mockResult);
         _mockFengshuiValidator
             .Setup(p => p.Validate(It.IsAny<Console.Models.PhoneNumber>()))
@@ -61,8 +61,8 @@ public partial class GetFengshuiPhoneNumbers
             fengshuiPhoneNumber,
             fengshuiPhoneNumber
         };
-        _mockUnitOfWork
-            .Setup(p => p.PhoneNumberRepository.GetAllPhoneNumbers())
+        _mockPhoneNumberRepository
+            .Setup(p => p.GetAllPhoneNumbers())
             .ReturnsAsync(mockResult);
         _mockFengshuiValidator
             .Setup(p => p.Validate(It.IsAny<Console.Models.PhoneNumber>()))
@@ -80,8 +80,8 @@ public partial class GetFengshuiPhoneNumbers
     public async void GetFengshuiPhoneNumbers_Fail_QueryThrowException()
     {
         // Arrange
-        _mockUnitOfWork
-            .Setup(p => p.PhoneNumberRepository.GetAllPhoneNumbers())
+        _mockPhoneNumberRepository
+             .Setup(p => p.GetAllPhoneNumbers())
             .ThrowsAsync(new Exception());
 
         // Act

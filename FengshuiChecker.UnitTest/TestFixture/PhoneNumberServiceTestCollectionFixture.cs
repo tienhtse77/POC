@@ -10,7 +10,7 @@ public class PhoneNumberServiceTestCollectionFixture : IDisposable
 {
     public IContainer Container { get; private set; }
 
-    public Mock<IUnitOfWork> MockUnitOfWork { get; set; }
+    public Mock<IPhoneNumberRepository> MockPhoneNumberRepository { get; set; }
 
     public Mock<IFengshuiPhoneNumberValidator> MockFengshuiPhoneNumberValidator { get; set; }
 
@@ -19,11 +19,11 @@ public class PhoneNumberServiceTestCollectionFixture : IDisposable
         // Register all DI need for unit test.
         var builder = new ContainerBuilder();
 
-        MockUnitOfWork = new Mock<IUnitOfWork>();
+        MockPhoneNumberRepository = new Mock<IPhoneNumberRepository>();
         MockFengshuiPhoneNumberValidator = new Mock<IFengshuiPhoneNumberValidator>();
 
         builder.RegisterType<PhoneNumberService>().As<IPhoneNumberService>()
-            .WithParameter(new TypedParameter(typeof(IUnitOfWork), MockUnitOfWork.Object))
+            .WithParameter(new TypedParameter(typeof(IPhoneNumberRepository), MockPhoneNumberRepository.Object))
             .WithParameter(new TypedParameter(typeof(IFengshuiPhoneNumberValidator), MockFengshuiPhoneNumberValidator.Object));
 
         // Build container

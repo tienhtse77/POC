@@ -1,6 +1,6 @@
 ﻿using FengshuiChecker.Console.Interfaces;
 using FengshuiChecker.Console.Models;
-using FengshuiChecker.Console.Repositories;
+using FengshuiChecker.Console.Repositories.PhoneNumberRepository;
 using FengshuiChecker.Console.Services.PhoneNumberService;
 using FengshuiChecker.Console.Services.RuleValidationService;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +26,7 @@ try
                     }))
                 .AddScoped<IPhoneNumberService, PhoneNumberService>()
                 .AddScoped<IFengshuiPhoneNumberValidator, FengshuiPhoneNumberValidator>()
-                .AddScoped<IUnitOfWork, UnitOfWork>()
+                .AddScoped<IPhoneNumberRepository, PhoneNumberRepository>()
                 .AddTransient<MainClass>())
         .Build();
 
