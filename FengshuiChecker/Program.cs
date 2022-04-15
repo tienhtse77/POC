@@ -33,14 +33,15 @@ try
     var entryPoint = host.Services.GetRequiredService<MainClass>();
     await entryPoint.Run();
 
-} catch (Exception ex)
+}
+catch (Exception ex)
 {
-    Console.WriteLine("Application failed to start: ", ex);
+    Console.WriteLine("Application failed to start: {0}", ex.Message);
 }
 
 public class MainClass
 {
-    private IPhoneNumberService service;
+    private readonly IPhoneNumberService service;
 
     public MainClass(IPhoneNumberService service)
     {
@@ -52,7 +53,7 @@ public class MainClass
         
         var result =  await service.GetShengfuiPhoneNumbers();
 
-        if (result != null && result.Length == 0)
+        if (result == null || result.Length == 0)
         {
             Console.WriteLine("There are NO Fengshui phone numbers in the system!");
             return;

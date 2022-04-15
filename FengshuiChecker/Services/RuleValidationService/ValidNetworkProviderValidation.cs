@@ -1,8 +1,6 @@
-﻿using FengshuiChecker.Console.Interfaces;
+﻿using FengshuiChecker.Console.Extensions;
+using FengshuiChecker.Console.Interfaces;
 using FengshuiChecker.Console.Models;
-using FengshuiChecker.Console.ViewModels.Configuration;
-using Newtonsoft.Json;
-using System.Reflection;
 
 namespace FengshuiChecker.Console.Services.ValidationRuleService;
 
@@ -10,9 +8,7 @@ public class ValidNetworkProviderValidation : IRuleValidationService
 {
     public bool Validate(PhoneNumber phoneNumber)
     {
-        // Parse fengshui condition configuration
-        string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"fengshuiCondition.json");
-        var fengshuiConfig = JsonConvert.DeserializeObject<FengshuiConfiguration>(File.ReadAllText(path));
+        var fengshuiConfig = ConfigurationReader.LoadConfiguration();
 
         if (fengshuiConfig == null)
         {

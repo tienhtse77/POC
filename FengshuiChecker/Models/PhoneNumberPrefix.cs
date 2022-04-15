@@ -14,5 +14,5 @@ public class PhoneNumberPrefix : BaseEntity
 
     public bool IsFengshuiPrefix { get; set; }
 
-    public virtual ICollection<PhoneNumber>? PhoneNumbers { get; set; }
+    public virtual ICollection<PhoneNumber> PhoneNumbers { get; }
 }

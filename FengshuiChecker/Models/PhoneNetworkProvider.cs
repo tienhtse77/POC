@@ -11,5 +11,5 @@ public class PhoneNetworkProvider : BaseEntity
 
     public string Name { get; set; }
 
-    public virtual ICollection<PhoneNumberPrefix>? PhoneNumberPrefixes { get; set; }
+    public virtual ICollection<PhoneNumberPrefix> PhoneNumberPrefixes { get; set; }
 }

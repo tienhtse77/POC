@@ -1,8 +1,6 @@
-﻿using FengshuiChecker.Console.Interfaces;
+﻿using FengshuiChecker.Console.Extensions;
+using FengshuiChecker.Console.Interfaces;
 using FengshuiChecker.Console.Models;
-using FengshuiChecker.Console.ViewModels.Configuration;
-using Newtonsoft.Json;
-using System.Reflection;
 
 namespace FengshuiChecker.Console.Services.ValidationRuleService;
 
@@ -10,22 +8,27 @@ public class ValidSumValidation : IRuleValidationService
 {
     public bool Validate(PhoneNumber phoneNumber)
     {
-        // Parse fengshui condition configuration
-        string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"fengshuiCondition.json");
-        var fengshuiConfig = JsonConvert.DeserializeObject<FengshuiConfiguration>(File.ReadAllText(path));
+        var fengshuiConfig = ConfigurationReader.LoadConfiguration();
 
         if (fengshuiConfig == null)
         {
             return true;
         }
 
-        if (phoneNumber == null || String.IsNullOrWhiteSpace(phoneNumber.Value))
+        if (phoneNumber == null)
         {
             return false;
         }
 
-        var first5Characters = phoneNumber.Value.Substring(0, 5);
-        var last5Characters = phoneNumber.Value.Substring(phoneNumber.Value.Length - 5);
+        var sanitizedPhoneNumber = phoneNumber.Value.GetNumeric();
+
+        if (sanitizedPhoneNumber.Length != 10)
+        {
+            return false;
+        }
+
+        var first5Characters = sanitizedPhoneNumber.Substring(0, 5);
+        var last5Characters = sanitizedPhoneNumber.Substring(sanitizedPhoneNumber.Length - 5);
 
         var sumFirst5Characters = SumOfPhoneNumber(first5Characters);
         var sumLast5Characters = SumOfPhoneNumber(last5Characters);

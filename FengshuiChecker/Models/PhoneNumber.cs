@@ -13,5 +13,5 @@ public class PhoneNumber : BaseEntity
 
     public Guid? PhoneNumberPrefixId { get; set; }
 
-    public virtual PhoneNumberPrefix? PhoneNumberPrefix { get; set; }
+    public virtual PhoneNumberPrefix PhoneNumberPrefix { get; set; }
 }
